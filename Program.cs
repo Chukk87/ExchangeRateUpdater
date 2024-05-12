@@ -53,7 +53,7 @@ namespace ExchangeRateUpdater
                                 {
                                     //Convert with selected exchange value
                                     ExchangeRate selectedExchangeRate = rates.First(er => er.TargetCurrency.ToString() == selectedCurency);
-                                    decimal exchangeValue = userDecimalInput * selectedExchangeRate.Value;
+                                    decimal exchangeValue = provider.ExchangeRateConvert(selectedExchangeRate, userDecimalInput);
 
                                     Console.WriteLine($"The equvalent value of {userDecimalInput}{SettingsConstants.BankCurrency} is {exchangeValue}{selectedCurency}\n");
 
