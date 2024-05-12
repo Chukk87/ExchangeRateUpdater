@@ -28,8 +28,8 @@ namespace ExchangeRateUpdater.Services
             List<ExchangeRate> exchangeRates = webCurrencyTableRates.Select(webCurrencyTable =>
             {
                 // Extract data from the filtered WebExchangeRate list
-                Currency sourceCurrency = new Currency(SettingsConstants.BankCurrency);
-                Currency targetCurrency = new Currency(webCurrencyTable.Code);
+                Currency sourceCurrency = new(SettingsConstants.BankCurrency);
+                Currency targetCurrency = new(webCurrencyTable.Code);
                 decimal value = Convert.ToDecimal(webCurrencyTable.Rate) / Convert.ToDecimal(webCurrencyTable.Amount); //Rate on website is divisible by the amount to get true figure
                 value = Math.Floor(value * 1000) / 1000; //Round down to 3 decimal places
 
@@ -71,13 +71,14 @@ namespace ExchangeRateUpdater.Services
                     if (cells != null && cells.Count >= 5)
                     {
                         //Build WebCurrencyClass and populate properties with cell data
-                        WebExchangeRate data = new WebExchangeRate();
-
-                        data.Country = cells[0].InnerText.Trim();
-                        data.Currency = cells[1].InnerText.Trim();
-                        data.Amount = cells[2].InnerText.Trim();
-                        data.Code = cells[3].InnerText.Trim();
-                        data.Rate = cells[4].InnerText.Trim();
+                        WebExchangeRate data = new()
+                        {
+                            Country = cells[0].InnerText.Trim(),
+                            Currency = cells[1].InnerText.Trim(),
+                            Amount = cells[2].InnerText.Trim(),
+                            Code = cells[3].InnerText.Trim(),
+                            Rate = cells[4].InnerText.Trim()
+                        };
 
                         webCurrencyTable.Add(data);
                     }
@@ -86,6 +87,19 @@ namespace ExchangeRateUpdater.Services
             documemt.DocumentNode.RemoveAll();
 
             return webCurrencyTable;
+        }
+
+        /// <summary>
+        /// Calculates the exchange value (Rounded down)
+        /// </summary>
+        /// <param name="SelectedExchangeRate"></param>
+        /// <param name="Amount"></param>
+        /// <returns>Returns exchanged value</returns>
+        public decimal ExchangeRateConvert(ExchangeRate SelectedExchangeRate, decimal Amount)
+        {
+            decimal exchangeValue = Math.Floor(Amount * SelectedExchangeRate.Value * 100) / 100;
+
+            return exchangeValue;
         }
     }
 }

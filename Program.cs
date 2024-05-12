@@ -9,7 +9,7 @@ namespace ExchangeRateUpdater
 {
     public static class Program
     {
-        public async static Task Main(string[] args)
+        public async static Task Main()
         {
             try
             {
@@ -53,7 +53,7 @@ namespace ExchangeRateUpdater
                                 {
                                     //Convert
                                     ExchangeRate selectedExchangeRate = rates.First(er => er.TargetCurrency.ToString() == selectedCurency);
-                                    decimal exchangeValue = userDecimalInput * selectedExchangeRate.Value;
+                                    decimal exchangeValue = provider.ExchangeRateConvert(selectedExchangeRate, userDecimalInput);
 
                                     Console.WriteLine($"The equvalent value of {userDecimalInput}{SettingsConstants.BankCurrency} is {exchangeValue}{selectedCurency}\n");
 

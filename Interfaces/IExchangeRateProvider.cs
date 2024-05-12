@@ -6,6 +6,7 @@ namespace ExchangeRateUpdater.Interfaces
 {
     public interface IExchangeRateProvider
     {
-        Task<IEnumerable<ExchangeRate>> GetExchangeRates(IEnumerable<Currency> currencies);
+        public Task<IEnumerable<ExchangeRate>> GetExchangeRates(IEnumerable<Currency> currencies);
+        public decimal ExchangeRateConvert(ExchangeRate SelectedExchangeRate, decimal Amount);
     }
 }
