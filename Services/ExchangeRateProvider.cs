@@ -71,13 +71,14 @@ namespace ExchangeRateUpdater.Services
                     if (cells != null && cells.Count >= 5)
                     {
                         //Build WebCurrencyClass and populate properties with cell data
-                        WebExchangeRate data = new WebExchangeRate();
-
-                        data.Country = cells[0].InnerText.Trim();
-                        data.Currency = cells[1].InnerText.Trim();
-                        data.Amount = cells[2].InnerText.Trim();
-                        data.Code = cells[3].InnerText.Trim();
-                        data.Rate = cells[4].InnerText.Trim();
+                        WebExchangeRate data = new()
+                        {
+                            Country = cells[0].InnerText.Trim(),
+                            Currency = cells[1].InnerText.Trim(),
+                            Amount = cells[2].InnerText.Trim(),
+                            Code = cells[3].InnerText.Trim(),
+                            Rate = cells[4].InnerText.Trim()
+                        };
 
                         webCurrencyTable.Add(data);
                     }
@@ -87,5 +88,16 @@ namespace ExchangeRateUpdater.Services
 
             return webCurrencyTable;
         }
+
+        /// <summary>
+        /// Calculates the exchange value (Rounded down)
+        /// </summary>
+        /// <returns>Returns exchanged value</returns>
+        public decimal ExchangeRateConvert(ExchangeRate SelectedExchangeRate, decimal Amount)
+        {
+            decimal exchangeValue = Math.Floor(Amount * SelectedExchangeRate.Value * 100) / 100;
+
+            return exchangeValue;
+        } 
     }
 }

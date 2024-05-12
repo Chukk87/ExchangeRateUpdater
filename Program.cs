@@ -51,7 +51,7 @@ namespace ExchangeRateUpdater
 
                                 if (validNumber)
                                 {
-                                    //Convert
+                                    //Convert with selected exchange value
                                     ExchangeRate selectedExchangeRate = rates.First(er => er.TargetCurrency.ToString() == selectedCurency);
                                     decimal exchangeValue = userDecimalInput * selectedExchangeRate.Value;
 
